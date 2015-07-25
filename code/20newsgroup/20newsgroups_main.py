@@ -175,7 +175,7 @@ bigrams = []
 trigrams = []
 terms = []
 
-ngrams_par = 6
+ngrams_par = 1
 idf_bool = False
 freq_par = "not-binary"
 
