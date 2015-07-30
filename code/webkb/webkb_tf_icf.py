@@ -16,13 +16,9 @@ import time
 import string
 import math
 
-# Import the pandas package, then use the "read_csv" function to read
-# the labeled training data
-
 b = 0.20
-idf_bool = True
+
 classifier_par = "svm"
-print "idf:"+str(idf_bool)+" classifier:"+classifier_par
 
 ## Open the file with read only permit
 f = open('../../data/webkb/webkb-train-stemmed.txt', "r")

@@ -127,64 +127,66 @@ num_documents = len(clean_train_documents)
 # Initialize the "CountVectorizer" object, which is scikit-learn's
 # bag of words tool. 
 print "Creating the bag of words..."
-# vectorizer = CountVectorizer(analyzer = "word")
 
-# fit_transform() does two functions: First, it fits the model
-# and learns the vocabulary; second, it transforms our training data
-# into feature vectors. The input to fit_transform should be a list of 
-# strings.
-#train_data_features = vectorizer.fit_transform(clean_train_documents)
-tfidf_vect = TfidfVectorizer(analyzer = "word", tokenizer = None,lowercase= True, min_df=1, max_features=None, norm=None, binary=True, ngram_range=(1,ngrams_par), use_idf=False)
+if bag_of_words=="vectorizer":
+	# vectorizer = CountVectorizer(analyzer = "word")
 
-#print train_data_features.shape
-features = tfidf_vect.fit_transform(clean_train_documents)
-# features = X_train_tfidf.toarray()
+	# fit_transform() does two functions: First, it fits the model
+	# and learns the vocabulary; second, it transforms our training data
+	# into feature vectors. The input to fit_transform should be a list of 
+	# strings.
+	#train_data_features = vectorizer.fit_transform(clean_train_documents)
+	tfidf_vect = TfidfVectorizer(analyzer = "word", tokenizer = None,lowercase= True, min_df=1, max_features=None, norm=None, binary=True, ngram_range=(1,ngrams_par), use_idf=False)
 
-# # MY TF-IDF
-# features = np.zeros((num_documents,len(unique_words)))
-# term_num_docs = {}
+	#print train_data_features.shape
+	features = tfidf_vect.fit_transform(clean_train_documents)
 
-# totalLen = 0
-# for i in range( 0,num_documents ):
-#     #dG = nx.Graph()
-# 	found_unique_words = []
-# 	wordList1 = clean_train_documents[i].split(None)
-# 	wordList2 = [string.rstrip(x.lower(), ',.!?;') for x in wordList1]
+else:
+	# MY TF-IDF
+	features = np.zeros((num_documents,len(unique_words)))
+	term_num_docs = {}
 
-# 	docLen = len(wordList2)
-# 	totalLen += docLen
+	totalLen = 0
+	for i in range( 0,num_documents ):
+	    #dG = nx.Graph()
+		found_unique_words = []
+		wordList1 = clean_train_documents[i].split(None)
+		wordList2 = [string.rstrip(x.lower(), ',.!?;') for x in wordList1]
 
-# 	for k, word in enumerate(wordList2):
-# 		if word not in found_unique_words:
-# 			found_unique_words.append(word)
-# 			if word not in term_num_docs:
-# 				term_num_docs[word] = 1
-# 			else:
-# 				term_num_docs[word] += 1
+		docLen = len(wordList2)
+		totalLen += docLen
 
-# avgLen = float(totalLen)/num_documents
-# print "Average document length:"+str(avgLen)
-# idf_col = {}
-# for x in term_num_docs:
-# 	idf_col[x] = math.log10((float(num_documents)+1.0) / (term_num_docs[x]))
+		for k, word in enumerate(wordList2):
+			if word not in found_unique_words:
+				found_unique_words.append(word)
+				if word not in term_num_docs:
+					term_num_docs[word] = 1
+				else:
+					term_num_docs[word] += 1
 
-# for i in range( 0,num_documents ):
-# 	tf = dict()
-# 	wordList1 = clean_train_documents[i].split(None)
-# 	wordList2 = [string.rstrip(x.lower(), ',.!?;') for x in wordList1]
-# 	docLen = len(wordList2)
+	avgLen = float(totalLen)/num_documents
+	print "Average document length:"+str(avgLen)
+	idf_col = {}
+	for x in term_num_docs:
+		idf_col[x] = math.log10((float(num_documents)+1.0) / (term_num_docs[x]))
 
-# 	for k, word in enumerate(wordList2):
-# 		tf[word] = wordList2.count(word)
+	for i in range( 0,num_documents ):
+		tf = dict()
+		wordList1 = clean_train_documents[i].split(None)
+		wordList2 = [string.rstrip(x.lower(), ',.!?;') for x in wordList1]
+		docLen = len(wordList2)
 
-# 	for k, g in enumerate(tf):
-# 		if g in unique_words:
-#             #features[i,unique_words.index(g)] = dG.degree(nbunch=g,weight='weight') * idf_col[g]
-# 			tf_g = 1+math.log(1+math.log(tf[g]))
-# 			if idf_bool:
-# 				features[i,unique_words.index(g)] = (float(tf_g)/(1-b+(b*(float(docLen)/avgLen)))) * idf_col[g]
-# 			else:
-# 				features[i,unique_words.index(g)] = float(tf_g)/(1-b+(b*(float(docLen)/avgLen)))
+		for k, word in enumerate(wordList2):
+			tf[word] = wordList2.count(word)
+
+		for k, g in enumerate(tf):
+			if g in unique_words:
+	            #features[i,unique_words.index(g)] = dG.degree(nbunch=g,weight='weight') * idf_col[g]
+				tf_g = 1+math.log(1+math.log(tf[g]))
+				if idf_bool:
+					features[i,unique_words.index(g)] = (float(tf_g)/(1-b+(b*(float(docLen)/avgLen)))) * idf_col[g]
+				else:
+					features[i,unique_words.index(g)] = float(tf_g)/(1-b+(b*(float(docLen)/avgLen)))
 
 print "Training the classifier..."
 
@@ -203,31 +205,32 @@ clf = svm.LinearSVC(loss="hinge")
 clean_test_documents,unique_words = parseXmlStopStemRem(clean_test_documents,unique_words,True)
 num_test_documents = len(clean_test_documents)
 
-# TF-IDF vectorizer for test
-features_test = tfidf_vect.transform(clean_test_documents)
-# features_test = X_test_tfidf.toarray()
-print features_test.shape
+if bag_of_words=="vectorizer":
+	# TF-IDF vectorizer for test
+	features_test = tfidf_vect.transform(clean_test_documents)
+	# features_test = X_test_tfidf.toarray()
+	print features_test.shape
 
-# # MY TF-IDF for test
-# features_test = np.zeros((num_test_documents,len(unique_words)))
+else:
+	# MY TF-IDF for test
+	features_test = np.zeros((num_test_documents,len(unique_words)))
 
-# for i in range( 0,num_documents_test):
-# 	tf_test = dict()
-# 	wordList1 = clean_test_documents[i].split(None)
-# 	wordList2 = [string.rstrip(x.lower(), ',.!?;') for x in wordList1]
-# 	docLen = len(wordList2)
+	for i in range( 0,num_documents_test):
+		tf_test = dict()
+		wordList1 = clean_test_documents[i].split(None)
+		wordList2 = [string.rstrip(x.lower(), ',.!?;') for x in wordList1]
+		docLen = len(wordList2)
 
-# 	for k, word in enumerate(wordList2):
-# 		tf_test[word] = wordList2.count(word)
+		for k, word in enumerate(wordList2):
+			tf_test[word] = wordList2.count(word)
 
-# 	for k, g in enumerate(tf_test):
-# 		if g in unique_words:
-#             #features[i,unique_words.index(g)] = dG.degree(nbunch=g,weight='weight') * idf_col[g]
-# 			tf_g = 1+math.log(1+math.log(tf_test[g]))
-# 			if idf_bool:
-# 				features_test[i,unique_words.index(g)] = (float(tf_g)/(1-b+(b*(float(docLen)/avgLen)))) * idf_col[g]
-# 			else:
-# 				features_test[i,unique_words.index(g)] = float(tf_g)/(1-b+(b*(float(docLen)/avgLen)))
+		for k, g in enumerate(tf_test):
+			if g in unique_words:
+				tf_g = 1+math.log(1+math.log(tf_test[g]))
+				if idf_bool:
+					features_test[i,unique_words.index(g)] = (float(tf_g)/(1-b+(b*(float(docLen)/avgLen)))) * idf_col[g]
+				else:
+					features_test[i,unique_words.index(g)] = float(tf_g)/(1-b+(b*(float(docLen)/avgLen)))
 
 # This may take a few minutes to run
 forest = clf.fit( features, y_train)
