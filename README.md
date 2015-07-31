@@ -1,8 +1,8 @@
 # Graph-Based-TC
 ## Graph-based framework for text classification
 
-### Main instructions
-There are 3 python files for every dataset. We use the fetch_20newsgroups built-in python to get the 20newsgroup dataset. For the IMDB dataset, you can download it [here](http://ai.stanford.edu/~amaas/data/sentiment/). 
+### Datasets
+Our implementation includes 4 datasets: 20newsgroups,Imdb,WebKb,Reuters . We use the fetch_20newsgroups built-in python to get the 20newsgroup dataset. For the IMDB dataset, you can download it [here](http://ai.stanford.edu/~amaas/data/sentiment/).
 
 Files ending with main.py contain tf and tf-idf, files ending with tf-icf.py contain tf-icf(term frequency-inverse collection frequency) and files ending with gow.py contain the tw, tw-idf and tw-icw methods.
 
@@ -22,9 +22,10 @@ Inside each file there are several parameters to set in order to get the result 
 
 ### Example
 For the WebKb dataset you go in the code/webkb/:
-- for the tf you run: python webkb_main.py with parameters: idf_bool = False
-- for the tf-idf you run: python webkb_main.py with parameters: idf_bool = True
-- for the tf-icf you run: python webkb_tf_icf.py
-- for the tw with degree centrality you run: python webkb_gow.py with parameters: idf_par="no"
-- for the tw-idf with degree centrality you run: python webkb_gow.py with parameters: idf_par="idf"
-- for the tw-icw with degree centrality on both tw and icw you run webkb_gow.py with parameters: idf_par="icw"
+- for tf run: webkb_main.py with parameter idf_bool = False
+- for tf-idf run: python webkb_main.py with parameter idf_bool = True
+- for tf-icf run: python webkb_tf_icf.py
+- for tw with degree centrality run: python webkb_gow.py with parameter idf_par="no"
+- for tw-idf with degree centrality run: python webkb_gow.py with parameter idf_par="idf"
+- for tw-icw with degree centrality on both tw and icw run: python webkb_gow.py with parameter idf_par="icw"
+- for tf-icw with degree centrality on icw run: python webkb_gow.py with parameter idf_par="tf-icw"
