@@ -25,7 +25,7 @@ classifier_par = "svm"
 print "idf:"+str(idf_bool)+" classifier:"+classifier_par
 
 ## Open the file with read only permit
-f = open('../../data/webkb/webkb-train-stemmed.txt', "r")
+f = open('data/webkb-train-stemmed.txt', "r")
 
 ## use readlines to read all lines in the file
 ## The variable "lines" is a list containing all lines
@@ -144,7 +144,7 @@ start = time.time()
 #clf = AdaBoostClassifier(n_estimators=100)
 # clf = svm.SVC(kernel="linear",probability=True)
 if classifier_par=="svm":
-    clf = svm.LinearSVC(loss="hinge")
+    clf = svm.LinearSVC()
 elif classifier_par=="log":
     clf = SGDClassifier(loss="log")
 
@@ -224,9 +224,9 @@ forest = clf.fit( features, y )
 pred_train = forest.predict(features)
 
 if bag_of_words=="vectorizer":
-    text_file = open("vectorizer_"+classifier_par+"_output_tf_idf_"+str(idf_bool)+".txt", "w")
+    text_file = open("results/"+"vectorizer_"+classifier_par+"_output_tf_idf_"+str(idf_bool)+".txt", "w")
 else:
-    text_file = open("myTfIdf_"+classifier_par+"_output_tf_idf_"+str(idf_bool)+".txt", "w")
+    text_file = open("results/"+"myTfIdf_"+classifier_par+"_output_tf_idf_"+str(idf_bool)+".txt", "w")
 
 # # Sort the coef_ as per feature weights and select largest 20 of them
 # # 2 shows that we are considering the third class
@@ -249,37 +249,10 @@ print mac
 mic = "Micro:"+str(metrics.precision_recall_fscore_support(classes_in_integers, pred_train, average='micro'))
 print mic
 
-tp = np.zeros(classNum)
-fn = np.zeros(classNum)
-fp = np.zeros(classNum)
-tn = np.zeros(classNum)
-for j in range(classNum):
-    for i in range(rowsX):
-        if y[i]==j:
-            if pred_train[i]==j:
-                tp[j] += 1
-            else:
-                fn[j] += 1
-        else:
-            if pred_train[i]==j:
-                fp[j] += 1
-            else:
-                tn[j] += 1
-
-pr_micro = float(np.sum(tp))/np.sum(np.add(tp,fp))
-pr_micro_str = "Precision micro:"+str(pr_micro)
-print pr_micro_str
-rec_micro = float(np.sum(tp))/np.sum(np.add(tp,fn))
-rec_micro_str = "Recall micro:"+str(rec_micro)
-print rec_micro_str
-f1_score_micro = 2*(float(pr_micro*rec_micro)/(pr_micro+rec_micro))
-f1_score_micro_str = "f1-score micro:"+str(f1_score_micro)
-print f1_score_micro_str
-
 met = metrics.classification_report(classes_in_integers, pred_train, target_names=classLabels, digits=4)
 print met
 
-text_file.write(acc+"\n"+mac+"\n"+mic+"\n"+pr_micro_str+"\n"+rec_micro_str+"\n"+f1_score_micro_str+"\n"+met)
+text_file.write(acc+"\n"+mac+"\n"+mic+"\n"+"\n"+met)
 
 end = time.time()
 elapsed = end - start
@@ -287,7 +260,7 @@ print "Total time:"+str(elapsed)
 
 ## Testing set
 ## Open the file with read only permit
-f = open('../../data/webkb/webkb-test-stemmed.txt', "r")
+f = open('data/webkb-test-stemmed.txt', "r")
 
 ## use readlines to read all lines in the file
 ## The variable "lines" is a list containing all lines
@@ -415,35 +388,9 @@ mac = "Macro test:"+str(metrics.precision_recall_fscore_support(y_test, pred_tes
 print mac
 mic = "Micro test:"+str(metrics.precision_recall_fscore_support(y_test, pred_test, average='micro'))
 print mic
-tp_test = np.zeros(classNum_test)
-fn_test = np.zeros(classNum_test)
-fp_test = np.zeros(classNum_test)
-tn_test = np.zeros(classNum_test)
-for j in range(classNum_test):
-    for i in range(rowsX):
-        if y_test[i]==j:
-            if pred_test[i]==j:
-                tp_test[j] += 1
-            else:
-                fn_test[j] += 1
-        else:
-            if pred_test[i]==j:
-                fp_test[j] += 1
-            else:
-                tn_test[j] += 1
-
-pr_micro = float(np.sum(tp_test))/np.sum(np.add(tp_test,fp_test))
-pr_micro_str = "Precision micro:"+str(pr_micro)
-print pr_micro_str
-rec_micro = float(np.sum(tp_test))/np.sum(np.add(tp_test,fn_test))
-rec_micro_str = "Recall micro:"+str(rec_micro)
-print rec_micro_str
-f1_score_micro = 2*(float(pr_micro*rec_micro)/(pr_micro+rec_micro))
-f1_score_micro_str = "f1-score micro:"+str(f1_score_micro)
-print f1_score_micro_str
 
 met = metrics.classification_report(y_test, pred_test, target_names=classLabels_test, digits=4)
 print met
 
-text_file.write(acc+"\n"+mac+"\n"+mic+"\n"+pr_micro_str+"\n"+rec_micro_str+"\n"+f1_score_micro_str+"\n"+met)
+text_file.write(acc+"\n"+mac+"\n"+mic+"\n"+"\n"+met)
 text_file.close()

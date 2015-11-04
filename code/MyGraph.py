@@ -167,9 +167,7 @@ def createGraphFeatures(num_documents,clean_train_documents,unique_words,bigrams
             centr_sum = sum(centrality_col.values())
             for k,g in enumerate(dGcol.nodes()):
                 if centrality_col[g]!=0:
-                    if idf_par=="icw" or idf_par=="tf-icw":
-                        icw_col[g] = math.log10(float(centr_sum)/centrality_col[g])
-                    elif idf_par=="icw+idf":
+                    if idf_par=="icw" or idf_par=="tf-icw" or idf_par=="icw+idf":
                         icw_col[g] = math.log10(float(centr_sum)/centrality_col[g])
                 else:
                     icw_col[g] = 0
@@ -217,20 +215,21 @@ def createGraphFeatures(num_documents,clean_train_documents,unique_words,bigrams
         wordList2 = [string.rstrip(x.lower(), ',.!?;') for x in wordList1]
         docLen = len(wordList2)
 
-        if len(wordList2)>1 and wordList2[0]!=wordList2[1]:
+        if len(wordList2)>1:
             for k, word in enumerate(wordList2):
                 for j in xrange(1,sliding_window):
                     try:
                         next_word = wordList2[k + j]
-
+                        
                         if not dG.has_node(word):
                             dG.add_node(word)
                             dG.node[word]['count'] = 1
                         else:
                             dG.node[word]['count'] += 1
+
                         if not dG.has_node(next_word):
                             dG.add_node(next_word)
-                            dG.node[next_word]['count'] = 0
+                            dG.node[next_word]['count'] = 1
 
                         if not dG.has_edge(word, next_word):
                             dG.add_edge(word, next_word, weight = 1)
@@ -311,6 +310,7 @@ def createGraphFeatures(num_documents,clean_train_documents,unique_words,bigrams
 
             tfs = []
             centralities = []
+            centr_sum_doc = sum(centrality.values())
 
             for k, g in enumerate(dG.nodes()):
                 if g in dGcol_nodes:
@@ -422,3 +422,4 @@ def createGraphFeatures(num_documents,clean_train_documents,unique_words,bigrams
         print "Average number of edges:"+str(float(totalEdges)/num_documents)
     
     return features, idfs,icws,collection_count_nodes, collection_count_edges, dGcol_nodes,max_core_col,feature_reduction, max_core_feat,avgLen
+

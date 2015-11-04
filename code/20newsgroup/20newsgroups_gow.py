@@ -104,9 +104,9 @@ def weighted_degree_centrality(dG,alpha=0.5):
     return degree
 
 b = 0.003
-idf_pars = ["tf-icw"]
+idf_pars = ["idf"]
 
-sliding_window = 3
+sliding_window = 2
 
 # A1 stands for remove and then rank features
 # A2 stands for rank features and then remove
@@ -167,7 +167,7 @@ for kcore_par in kcore_pars:
             print "centrality_col_par:"+centrality_col_par
 
             # the file for keeping the kcore, accuracy and reducing of features
-            myfile = open("results_"+kcore_par+".txt","w")
+            myfile = open("results/"+"results_"+kcore_par+".txt","w")
 
             # choose the k number for removing the top k-core nodes
             for kcore_par_int in range(1,2):
@@ -210,17 +210,18 @@ for kcore_par in kcore_pars:
                 forest = clf.fit( features, y )
                 pred_train = forest.predict(features)
 
+                path = "results/"
                 if idf_par=="no":
-                    text_file = open("output_tw_idf_"+idf_par+"_centr_"+centrality_par+"_sliding_"+str(sliding_window)+".txt","w")
+                    text_file = open(path+"output_tw_idf_"+idf_par+"_centr_"+centrality_par+"_sliding_"+str(sliding_window)+".txt","w")
                 elif idf_par=="tf-icw":
-                    text_file = open("output_"+idf_par+"_centr_"+centrality_par+"_sliding_"+str(sliding_window)+".txt","w")
+                    text_file = open(path+"output_"+idf_par+"_centr_"+centrality_par+"_sliding_"+str(sliding_window)+".txt","w")
                 elif idf_par=="idf":
-                    text_file = open("output_tw_"+idf_par+"_centr_"+centrality_par+"_sliding_"+str(sliding_window)+".txt","w")
+                    text_file = open(path+"output_tw_"+idf_par+"_centr_"+centrality_par+"_sliding_"+str(sliding_window)+".txt","w")
                 elif idf_par=="icw" or idf_par=="icw+idf":
                     if kcore_par=="A1" or kcore_par=="A2" or kcore_par=="B1" or kcore_par=="B2":
-                        text_file = open("output_tw_"+idf_par+"_centr_"+centrality_par+"_centrcol_"+centrality_col_par+"_sliding_"+str(sliding_window)+"_kcore_"+kcore_par+"_"+str(kcore_par_int)+"_UPDATED.txt","w")
+                        text_file = open(path+"output_tw_"+idf_par+"_centr_"+centrality_par+"_centrcol_"+centrality_col_par+"_sliding_"+str(sliding_window)+"_kcore_"+kcore_par+"_"+str(kcore_par_int)+"_UPDATED.txt","w")
                     else:
-                        text_file = open("output_tw_"+idf_par+"_centr_"+centrality_par+"_centrcol_"+centrality_col_par+"_sliding_"+str(sliding_window)+"_"+kcore_par+"_UPDATED.txt","w")
+                        text_file = open(path+"output_tw_"+idf_par+"_centr_"+centrality_par+"_centrcol_"+centrality_col_par+"_sliding_"+str(sliding_window)+"_"+kcore_par+"_UPDATED.txt","w")
 
                 # training score
                 score = accuracy_score(y, pred_train)
@@ -232,42 +233,13 @@ for kcore_par in kcore_pars:
                 mic = "Micro:"+str(metrics.precision_recall_fscore_support(y, pred_train, average='micro'))
                 print mic
 
-                tp = np.zeros(classNum)
-                fn = np.zeros(classNum)
-                fp = np.zeros(classNum) 
-                tn = np.zeros(classNum)
-
-                for j in range(classNum):
-                    for i in range(rowsX):
-                        if y_train[i]==j:
-                            if pred_train[i]==j:
-                                tp[j] += 1
-                            else:
-                                fn[j] += 1
-                        else:
-                            if pred_train[i]==j:
-                                fp[j] += 1
-                            else:
-                                tn[j] += 1
-
-
-                pr_micro = float(np.sum(tp))/np.sum(np.add(tp,fp))
-                pr_micro_str = "Precision micro:"+str(pr_micro)
-                print pr_micro_str
-                rec_micro = float(np.sum(tp))/np.sum(np.add(tp,fn))
-                rec_micro_str = "Recall micro:"+str(rec_micro)
-                print rec_micro_str
-                f1_score_micro = 2*(float(pr_micro*rec_micro)/(pr_micro+rec_micro))
-                f1_score_micro_str = "f1-score micro:"+str(f1_score_micro)               
-                print f1_score_micro_str
-
                 met = metrics.classification_report(y_train, pred_train, target_names=categories,digits=4)
                 print met
 
                 text_file.write("\n"+"Shape of features:"+str(features.shape)+"\n")
                 text_file.write("Collection training Number of nodes:"+str(collection_count_nodes)+"\n")
                 text_file.write("collection training Number of edges:"+str(collection_count_edges)+"\n")
-                text_file.write(acc+"\n"+mac+"\n"+mic+"\n"+pr_micro_str+"\n"+rec_micro_str+"\n"+f1_score_micro_str+"\n"+met)
+                text_file.write(acc+"\n"+mac+"\n"+mic+"\n"+"\n"+met)
 
                 end = time.time()
                 elapsed = end - start

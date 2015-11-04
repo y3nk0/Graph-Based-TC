@@ -1,0 +1,37 @@
+Class:course,final,cse,exam,offer,descript,note,week,hour,lectur,read,handout,prerequisit,grade,materi,syllabu,topic,homework,class,assign,instructor
+
+Class:faculty,current,director,mathemat,acm,berkelei,committe,state,award,chair,ci,cpsc,faculti,cours,journal,henri,recent,teach,associ,fax,professor
+
+Class:project,local,maintain,perform,facil,develop,imag,staff,site,includ,lab,tool,research,robot,support,peopl,laboratori,faculti,relat,project,group
+
+Class:student,seattl,georgia,offic,year,cornel,favorit,street,game,madison,link,student,master,austin,pictur,thesi,graduat,interest,resum,work,advisor
+
+Results_tw_no_degree_centrality_sliding_2
+
+Accuracy in training set:0.948983232251
+Macro:(0.95623668995674982, 0.93743472107283232, 0.94589964505877866, None)
+Micro:(0.94898323225115944, 0.94898323225115944, 0.94898323225115944, None)
+
+             precision    recall  f1-score   support
+
+     course     0.9712    0.9774    0.9743       620
+    faculty     0.9615    0.9000    0.9298       750
+    project     0.9675    0.8869    0.9255       336
+    student     0.9247    0.9854    0.9541      1097
+
+avg / total     0.9500    0.9490    0.9486      2803
+Feature reduction:0.0
+Accuracy in testing set:0.906876790831
+Macro test:(0.90735085190622544, 0.89211405786654829, 0.89918785552828839, None)
+Micro test:(0.90687679083094552, 0.90687679083094552, 0.90687679083094563, None)
+Precision micro:0.918689320388
+Recall micro:0.888497652582
+f1-score micro:0.903341288783
+             precision    recall  f1-score   support
+
+     course     0.9641    0.9516    0.9578       310
+    faculty     0.8981    0.8717    0.8847       374
+    project     0.8774    0.8095    0.8421       168
+    student     0.8899    0.9357    0.9122       544
+
+avg / total     0.9070    0.9069    0.9065      1396

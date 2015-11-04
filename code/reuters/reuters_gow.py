@@ -54,10 +54,10 @@ for i in xrange( 0, num_documents ):
 
 print "Unique words:"+str(len(unique_words))
 
-sliding_window = 3
+sliding_window = 2
 b = 0.003
 # idf_par = "idf"
-idf_pars = ["tf-icw"]
+idf_pars = ["icw"]
 kcore_pars = ["A0"]
 
 # centrality_pars = ["degree_centrality","closeness_centrality","betweenness_centrality","in_degree_centrality","out_degree_centrality","pagerank_centrality","closeness_centrality_directed","betweenness_centrality_directed"]
@@ -179,19 +179,19 @@ for kcore_par in kcore_pars:
                 forest = clf.fit( features, y )
                 pred_train = forest.predict(features)
 
-                path = "sliding_window/"
+                path = "results/"
 
                 if idf_par=="no":
-                    text_file = open("output_tw_idf_"+idf_par+"_centr_"+centrality_par+"_sliding_"+str(sliding_window)+"_kcore_"+kcore_par+".txt", "w")
+                    text_file = open(path+"output_tw_idf_"+idf_par+"_centr_"+centrality_par+"_sliding_"+str(sliding_window)+"_kcore_"+kcore_par+".txt", "w")
                 elif idf_par=="tf-icw":
-                    text_file = open("output_"+idf_par+"_centr_"+centrality_par+"_sliding_"+str(sliding_window)+"_kcore_"+kcore_par+".txt", "w")
+                    text_file = open(path+"output_"+idf_par+"_centr_"+centrality_par+"_sliding_"+str(sliding_window)+"_kcore_"+kcore_par+".txt", "w")
                 elif idf_par=="idf":
-                    text_file = open("output_tw_"+idf_par+"_centr_"+centrality_par+"_sliding_"+str(sliding_window)+"_kcore_"+kcore_par+".txt", "w")
+                    text_file = open(path+"output_tw_"+idf_par+"_centr_"+centrality_par+"_sliding_"+str(sliding_window)+"_kcore_"+kcore_par+".txt", "w")
                 elif idf_par=="icw" or idf_par=="icw+idf":
                     if kcore_par=="A1" or kcore_par=="A2" or kcore_par=="B1" or kcore_par=="B2" or kcore_par=="A0":
-                        text_file = open("output_tw_"+idf_par+"_centr_"+centrality_par+"_centrcol_"+centrality_col_par+"_sliding_"+str(sliding_window)+"_kcore_"+kcore_par+"_"+str(kcore_par_int)+"_UPDATED.txt", "w")
+                        text_file = open(path+"output_tw_"+idf_par+"_centr_"+centrality_par+"_centrcol_"+centrality_col_par+"_sliding_"+str(sliding_window)+"_kcore_"+kcore_par+"_"+str(kcore_par_int)+"_UPDATED.txt", "w")
                     else:
-                        text_file = open("output_tw_"+idf_par+"_centr_"+centrality_par+"_centrcol_"+centrality_col_par+"_sliding_"+str(sliding_window)+"_"+kcore_par+"_UPDATED.txt", "w")
+                        text_file = open(path+"output_tw_"+idf_par+"_centr_"+centrality_par+"_centrcol_"+centrality_col_par+"_sliding_"+str(sliding_window)+"_"+kcore_par+"_UPDATED.txt", "w")
 
                 # training score
                 score = metrics.accuracy_score(classes_in_integers, pred_train)
@@ -203,45 +203,18 @@ for kcore_par in kcore_pars:
                 mic = "Micro:"+str(metrics.precision_recall_fscore_support(classes_in_integers, pred_train, average='micro'))
                 print mic
 
-                tp = np.zeros(classNum)
-                fn = np.zeros(classNum)
-                fp = np.zeros(classNum)
-                tn = np.zeros(classNum)
-                for j in range(classNum):
-                    for i in range(rowsX):
-                        if y[i]==j:
-                            if pred_train[i]==j:
-                                tp[j] += 1
-                            else:
-                                fn[j] += 1
-                        else:
-                            if pred_train[i]==j:
-                                fp[j] += 1
-                            else:
-                                tn[j] += 1
-
-                pr_micro = float(np.sum(tp))/np.sum(np.add(tp,fp))
-                pr_micro_str = "Precision micro:"+str(pr_micro)
-                print pr_micro_str
-                rec_micro = float(np.sum(tp))/np.sum(np.add(tp,fn))
-                rec_micro_str = "Recall micro:"+str(rec_micro)
-                print rec_micro_str
-                f1_score_micro = 2*(float(pr_micro*rec_micro)/(pr_micro+rec_micro))
-                f1_score_micro_str = "f1-score micro:"+str(f1_score_micro)
-                print f1_score_micro_str
-
                 met = metrics.classification_report(classes_in_integers, pred_train, target_names=classLabels, digits=4)
                 print met
 
                 text_file.write("LinearSVC_tw_"+idf_par+"_"+centrality_par+"_sliding_"+str(sliding_window)+"\n\n")
-                text_file.write(acc+"\n"+mac+"\n"+mic+"\n"+pr_micro_str+"\n"+rec_micro_str+"\n"+f1_score_micro_str+"\n"+met)
+                text_file.write(acc+"\n"+mac+"\n"+mic+"\n"+"\n"+met)
 
                 end = time.time()
                 elapsed = end - start
                 print "Total time:"+str(elapsed)
 
                 ## Testing set
-                test = pd.read_csv("../../data/reuters/r8-test-stemmed.txt", sep="\t", header=None, names=cols)
+                test = pd.read_csv("data/r8-test-stemmed.txt", sep="\t", header=None, names=cols)
 
                 print test.shape
 
@@ -305,38 +278,12 @@ for kcore_par in kcore_pars:
                 print mac
                 mic = "Micro test:"+str(metrics.precision_recall_fscore_support(y_test, pred_test, average='micro'))
                 print mic
-                tp_test = np.zeros(classNum_test)
-                fn_test = np.zeros(classNum_test)
-                fp_test = np.zeros(classNum_test)
-                tn_test = np.zeros(classNum_test)
-                for j in range(classNum_test):
-                    for i in range(rowsX):
-                        if y_test[i]==j:
-                            if pred_test[i]==j:
-                                tp_test[j] += 1
-                            else:
-                                fn_test[j] += 1
-                        else:
-                            if pred_test[i]==j:
-                                fp_test[j] += 1
-                            else:
-                                tn_test[j] += 1
-
-                pr_micro = float(np.sum(tp_test))/np.sum(np.add(tp_test,fp_test))
-                pr_micro_str = "Precision micro:"+str(pr_micro)
-                print pr_micro_str
-                rec_micro = float(np.sum(tp_test))/np.sum(np.add(tp_test,fn_test))
-                rec_micro_str = "Recall micro:"+str(rec_micro)
-                print rec_micro_str
-                f1_score_micro = 2*(float(pr_micro*rec_micro)/(pr_micro+rec_micro))
-                f1_score_micro_str = "f1-score micro:"+str(f1_score_micro)
-                print f1_score_micro_str
 
                 met = metrics.classification_report(y_test, pred_test, target_names=classLabels_test, digits=4)
                 print met
 
                 text_file.write("Feature reduction:"+str(feature_reduction)+"\n")
-                text_file.write(acc+"\n"+mac+"\n"+mic+"\n"+pr_micro_str+"\n"+rec_micro_str+"\n"+f1_score_micro_str+"\n"+met)
+                text_file.write(acc+"\n"+mac+"\n"+mic+"\n"+"\n"+met)
                 text_file.close()
 
                 myfile.write("Accuracy:"+str(score)+"\n")

@@ -1,0 +1,37 @@
+Class:course,program,descript,final,hour,note,offer,week,read,exam,lectur,topic,materi,handout,syllabu,grade,homework,prerequisit,class,assign,instructor
+
+Class:faculty,faculti,editor,phone,algorithm,assist,public,berkelei,committe,cpsc,research,director,award,cours,journal,chair,recent,teach,fax,associ,professor
+
+Class:project,site,effort,local,releas,sponsor,maintain,overview,personnel,ucla,support,robot,tool,staff,facil,laboratori,peopl,relat,faculti,project,group
+
+Class:student,home,favorit,street,grad,link,game,uci,pictur,candid,seattl,madison,interest,austin,student,master,thesi,graduat,resum,work,advisor
+
+Results_tw_idf_degree_centrality_sliding_2
+
+Accuracy in training set:0.975740278273
+Macro:(0.98008834114837495, 0.97029354075561469, 0.9748612336700816, None)
+Micro:(0.97574027827327858, 0.97574027827327858, 0.97574027827327858, None)
+
+             precision    recall  f1-score   support
+
+     course     0.9825    0.9935    0.9880       620
+    faculty     0.9916    0.9467    0.9686       750
+    project     0.9876    0.9464    0.9666       336
+    student     0.9587    0.9945    0.9763      1097
+
+avg / total     0.9762    0.9757    0.9757      2803
+Feature reduction:0.0
+Accuracy in testing set:0.893266475645
+Macro test:(0.90166901579456593, 0.8688411544969894, 0.88245455978737408, None)
+Micro test:(0.89326647564469919, 0.89326647564469919, 0.89326647564469919, None)
+Precision micro:0.904761904762
+Recall micro:0.869718309859
+f1-score micro:0.886894075404
+             precision    recall  f1-score   support
+
+     course     0.9674    0.9581    0.9627       310
+    faculty     0.8519    0.8610    0.8564       374
+    project     0.9104    0.7262    0.8079       168
+    student     0.8769    0.9301    0.9028       544
+
+avg / total     0.8943    0.8933    0.8922      1396
