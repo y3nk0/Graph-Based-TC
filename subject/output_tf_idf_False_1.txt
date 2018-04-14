@@ -1,0 +1,12 @@
+Features shape:(6694, 8639)
+Accuracy in testing set:0.884300030367
+Macro test:(0.88432089526352575, 0.88423667220070101, 0.88426890932726931, None)
+Micro test:(0.88430003036744609, 0.88430003036744609, 0.88430003036744598, None)
+             precision    recall  f1-score   support
+
+ subjective     0.8854    0.8794    0.8824      1625
+  objective     0.8833    0.8891    0.8862      1668
+
+avg / total     0.8843    0.8843    0.8843      3293
+
+

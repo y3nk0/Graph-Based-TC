@@ -1,0 +1,21 @@
+
+Shape of features:(5359, 19980)
+Collection training Number of nodes:19980
+collection training Number of edges:274199
+Accuracy in training set:0.957081545064
+Macro:(0.95725525445021042, 0.95707973291437543, 0.95707734679032697, None)
+Micro:(0.9570815450643777, 0.9570815450643777, 0.9570815450643777, None)
+
+Features shape:(5359, 19980)
+Accuracy in testing set:0.822348484848
+Macro test:(0.82234866985116506, 0.82234848484848488, 0.82234845935899625, None)
+Micro test:(0.82234848484848488, 0.82234848484848488, 0.82234848484848488, None)
+             precision    recall  f1-score   support
+
+   negative     0.8226    0.8220    0.8223      1320
+   positive     0.8221    0.8227    0.8224      1320
+
+avg / total     0.8223    0.8223    0.8223      2640
+
+
+Significance:1.31208517726e-141 True

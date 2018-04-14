@@ -1,4 +1,0 @@
-Accuracy:0.840945300053
-kcore_par_int:1
-Feature reduction:0.0
-

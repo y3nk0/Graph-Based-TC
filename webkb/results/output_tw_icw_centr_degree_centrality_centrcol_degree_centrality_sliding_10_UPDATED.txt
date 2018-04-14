@@ -1,0 +1,23 @@
+
+Shape of features:(2813, 23206)
+Collection training Number of nodes:23206
+collection training Number of edges:2046528
+Accuracy in training set:0.999644507643
+Macro:(0.99966487935656834, 0.99977168949771689, 0.99971811989647641, None)
+Micro:(0.99964450764308566, 0.99964450764308566, 0.99964450764308566, None)
+
+Features shape:(2813, 23206)
+Accuracy in testing set:0.926406926407
+Macro test:(0.92486160135901985, 0.91220793948406809, 0.91815462733872455, None)
+Micro test:(0.92640692640692646, 0.92640692640692646, 0.92640692640692646, None)
+             precision    recall  f1-score   support
+
+     course     0.9615    0.9646    0.9631       311
+    faculty     0.9062    0.8918    0.8989       379
+    project     0.9065    0.8400    0.8720       150
+    student     0.9253    0.9524    0.9386       546
+
+avg / total     0.9261    0.9264    0.9260      1386
+
+
+Significance:0.812588649406 False
