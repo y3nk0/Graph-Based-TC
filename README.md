@@ -1,7 +1,7 @@
 # Graph-Based-TC
 ## Graph-based framework for text classification
 
-This is the code for the paper ["Fusing Document, Collection and Label Graph-based Representations with Word Embeddings for Text Classification"](https://www.lix.polytechnique.fr/~kskianis/papers/tw-icw-w2v_textgraphs2018.pdf), presented at the TextGraphs workshop, NAACL 2018, New Orleans, USA.
+This is the code for the paper ["Fusing Document, Collection and Label Graph-based Representations with Word Embeddings for Text Classification"](https://www.lix.polytechnique.fr/~kskianis/papers/tw-icw-w2v_textgraphs2018.pdf), presented at the TextGraphs workshop, NAACL 2018, New Orleans, USA. Our paper got the Best Paper Award!
 
 ### Datasets
 Our implementation includes 6 datasets: 20newsgroups, IMDB, WebKb, Reuters, Subjectivity and Amazon. We use the fetch_20newsgroups built-in python to get the 20newsgroup dataset. For the IMDB dataset, you can download it [here](http://ai.stanford.edu/~amaas/data/sentiment/). We add all remaining datasets [here](https://www.dropbox.com/sh/1qhbsvfhqgsu3wy/AADshIA30o6M8daul4GDVlBpa?dl=0), due to GitHub size limits.
@@ -32,9 +32,9 @@ For the WebKb dataset you go in the example/:
 - for tf-icw with degree centrality on icw run: python webkb_gow.py with parameter idf_par="tf-icw"
 - for tw-icw-lw with degree centrality on both tw,icw and lw run: python webkb_gow.py with parameter idf_par="icw-lw"
 
-## Feedback & Contact
+## Citation
 
-Please cite using the following BibTeX entry (same with Google Scholar):
+Please cite using the following BibTeX entry if you use our code (same with Google Scholar):
 
     @inproceedings{skianis2018fusing,
         title={Fusing Document, Collection and Label Graph-based Representations with Word Embeddings for Text Classification},
