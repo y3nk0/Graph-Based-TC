@@ -23,7 +23,7 @@ Inside each file there are several parameters to set in order to get the result 
 - centrality_col_par: the centrality metric which we use for the collection graph
 
 ### Example
-For the WebKb dataset you go in the webkb/:
+For the WebKb dataset you go in the example/:
 - for tf run: webkb_main.py with parameter idf_bool = False
 - for tf-idf run: python webkb_main.py with parameter idf_bool = True
 - for tw with degree centrality run: python webkb_gow.py with parameter idf_par="no"
@@ -31,3 +31,15 @@ For the WebKb dataset you go in the webkb/:
 - for tw-icw with degree centrality on both tw and icw run: python webkb_gow.py with parameter idf_par="icw"
 - for tf-icw with degree centrality on icw run: python webkb_gow.py with parameter idf_par="tf-icw"
 - for tw-icw-lw with degree centrality on both tw,icw and lw run: python webkb_gow.py with parameter idf_par="icw-lw"
+
+## Feedback & Contact
+
+Please cite using the following BibTeX entry (same with Google Scholar):
+
+    @inproceedings{skianis2018fusing,
+        title={Fusing Document, Collection and Label Graph-based Representations with Word Embeddings for Text Classification},
+        author={Skianis, Konstantinos and Malliaros, Fragkiskos and Vazirgiannis, Michalis},
+        booktitle={Proceedings of the Twelfth Workshop on Graph-Based Methods for Natural Language Processing (TextGraphs-12)},
+        pages={49--58},
+        year={2018}
+    }
